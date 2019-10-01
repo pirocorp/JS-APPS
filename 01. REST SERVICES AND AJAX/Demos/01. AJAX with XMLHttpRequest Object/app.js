@@ -47,7 +47,7 @@
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = handleResponse;
         xhr.open("GET",
-            "https://api.github.com/users/testnakov/repos", true);
+            "https://api.github.com/users/pirocorp/repos", true);
         xhr.send();
 
         //prevents the default action on event of dom element
