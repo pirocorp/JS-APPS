@@ -12,26 +12,36 @@ const urls = {
     forecast: 'https://judgetests.firebaseio.com/forecast/upcoming/${code}.json'
 };
 
+function createHTMLElement(tagName, id, classList, textContent) {
+    let currentElement = document.createElement(tagName);
+
+    if(id) {
+        currentElement.id = id;
+    }
+
+    if(classList) {
+        for (const currentClass of classList) {
+            currentElement.classList.add(currentClass);
+        }
+    }
+
+    if(textContent) {
+        currentElement.innerHTML = textContent;
+    }
+
+    return currentElement;
+}
+
 function resetForm() {
-    function createLabel(text) {
-        const label = document.createElement('div');
-        label.classList.add('label');
-        label.textContent = text;
-
-        return label;
-    };
-
     elements.forecast.innerHTML = '';
 
     const fragment = document.createDocumentFragment();
 
-    const current = document.createElement('div');
-    current.id = 'current';
-    current.appendChild(createLabel('Current conditions'));
+    const current = createHTMLElement('div', 'current');
+    current.appendChild(createHTMLElement('div', null, ['label'], 'Current conditions'));
 
-    const upcoming = document.createElement('div');
-    upcoming.id = 'upcoming';
-    upcoming.appendChild(createLabel('Three-day forecast'));
+    const upcoming = createHTMLElement('div', 'upcoming');
+    upcoming.appendChild(createHTMLElement('div', null, ['label'], 'Three-day forecast'));
 
     fragment.appendChild(current);
     fragment.appendChild(upcoming);
@@ -69,36 +79,22 @@ function getSymbol(condition) {
     }
 };
 
-function createForecastData(text) {
-    const forecastData = document.createElement('span');
-    forecastData.classList.add('forecast-data');
-    forecastData.innerHTML = text;
-
-    return forecastData;
-};
-
 function showLocationInfo(data) {
-    const forecasts = document.createElement('div');
-    forecasts.classList.add('forecasts');
+    const forecasts = createHTMLElement('div', null, ['forecasts']);
 
-    const conditionSymbol = document.createElement('span');
-    conditionSymbol.classList.add('condition');
-    conditionSymbol.classList.add('symbol');
-    conditionSymbol.innerHTML = getSymbol(data.forecast.condition);
+    const conditionSymbol = createHTMLElement('span', null, ['condition', 'symbol'], getSymbol(data.forecast.condition));
 
-    forecasts.appendChild(conditionSymbol);
+    const condition = createHTMLElement('span', null, ['condition']);
 
-    const condition = document.createElement('span');
-    condition.classList.add('condition');
-
-    const locationData = createForecastData(data.name);
-    const forecastData = createForecastData(`${data.forecast.low}&#176;/${data.forecast.high}&#176;`);
-    const conditionData = createForecastData(data.forecast.condition);
+    const locationData = createHTMLElement('span', null, ['forecast-data'], data.name);
+    const forecastData = createHTMLElement('span', null, ['forecast-data'], `${data.forecast.low}&#176;/${data.forecast.high}&#176;`);
+    const conditionData = createHTMLElement('span', null, ['forecast-data'], data.forecast.condition);
 
     condition.appendChild(locationData);
     condition.appendChild(forecastData);
     condition.appendChild(conditionData);
 
+    forecasts.appendChild(conditionSymbol);
     forecasts.appendChild(condition);
 
     elements.current.appendChild(forecasts);
@@ -106,15 +102,11 @@ function showLocationInfo(data) {
 
 function showForecastData(data) {
     function getForecastElement(data) {
-        const upcoming = document.createElement('span');
-        upcoming.classList.add('upcoming');
+        const upcoming = createHTMLElement('span', null, ['upcoming']);
 
-        const condition = document.createElement('span');
-        condition.classList.add('condition');
-        condition.innerHTML = getSymbol(data.condition);
-
-        const forecastData = createForecastData(`${data.low}&#176;/${data.high}&#176;`);
-        const conditionData = createForecastData(data.condition);
+        const condition = createHTMLElement('span', null, ['condition'], getSymbol(data.condition));
+        const forecastData = createHTMLElement('span', null, ['forecast-data'], `${data.low}&#176;/${data.high}&#176;`);
+        const conditionData = createHTMLElement('span', null, ['forecast-data'], data.condition);
 
         upcoming.appendChild(condition);
         upcoming.appendChild(forecastData);
