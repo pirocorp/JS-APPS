@@ -30,7 +30,7 @@ function createHTMLElement(tagName, id, classList, textContent) {
     }
 
     return currentElement;
-}
+};
 
 function resetForm() {
     elements.forecast.innerHTML = '';
