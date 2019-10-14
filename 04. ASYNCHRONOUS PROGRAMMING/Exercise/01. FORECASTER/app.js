@@ -1,4 +1,4 @@
-const elements = {
+let elements = {
     inputField: document.getElementById('location'),
     button: document.getElementById('submit'),
     current: document.getElementById('current'),
@@ -10,7 +10,42 @@ const urls = {
     location: 'https://judgetests.firebaseio.com/locations.json',
     today: 'https://judgetests.firebaseio.com/forecast/today/${code}.json',
     forecast: 'https://judgetests.firebaseio.com/forecast/upcoming/${code}.json'
-}
+};
+
+function resetForm() {
+    function createLabel(text) {
+        const label = document.createElement('div');
+        label.classList.add('label');
+        label.textContent = text;
+
+        return label;
+    };
+
+    elements.forecast.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
+
+    const current = document.createElement('div');
+    current.id = 'current';
+    current.appendChild(createLabel('Current conditions'));
+
+    const upcoming = document.createElement('div');
+    upcoming.id = 'upcoming';
+    upcoming.appendChild(createLabel('Three-day forecast'));
+
+    fragment.appendChild(current);
+    fragment.appendChild(upcoming);
+
+    elements.forecast.appendChild(fragment);
+
+    elements = {
+        inputField: document.getElementById('location'),
+        button: document.getElementById('submit'),
+        current: document.getElementById('current'),
+        forecast: document.getElementById('forecast'),
+        upcoming: document.getElementById('upcoming')
+    };
+};
 
 function handler(response) {
     if(response.status >= 400) {
@@ -22,7 +57,7 @@ function handler(response) {
 };
 
 function getSymbol(condition) {
-    switch(condition){
+    switch (condition) {
         case 'Sunny':
             return '&#x2600;';
         case 'Partly sunny':
@@ -31,14 +66,8 @@ function getSymbol(condition) {
             return '&#x2601;';
         case 'Rain':
             return '&#x2614;';
-        case 'Degrees':
-            return '&#176;';
     }
-}
-
-function resetForm() {
-    console.log('TODO reset');
-}
+};
 
 function createForecastData(text) {
     const forecastData = document.createElement('span');
@@ -46,7 +75,7 @@ function createForecastData(text) {
     forecastData.innerHTML = text;
 
     return forecastData;
-}
+};
 
 function showLocationInfo(data) {
     const forecasts = document.createElement('div');
@@ -66,7 +95,7 @@ function showLocationInfo(data) {
     const forecastData = createForecastData(`${data.forecast.low}&#176;/${data.forecast.high}&#176;`);
     const conditionData = createForecastData(data.forecast.condition);
 
-    condition.appendChild(locationData);    
+    condition.appendChild(locationData);
     condition.appendChild(forecastData);
     condition.appendChild(conditionData);
 
@@ -75,25 +104,25 @@ function showLocationInfo(data) {
     elements.current.appendChild(forecasts);
 };
 
-function getForecastElement(data) {
-    const upcoming = document.createElement('span');
-    upcoming.classList.add('upcoming');
-
-    const condition = document.createElement('span');
-    condition.classList.add('condition');
-    condition.innerHTML = getSymbol(data.condition);
-
-    const forecastData = createForecastData(`${data.low}&#176;/${data.high}&#176;`);
-    const conditionData = createForecastData(data.condition);
-
-    upcoming.appendChild(condition);
-    upcoming.appendChild(forecastData);
-    upcoming.appendChild(conditionData);
-
-    return upcoming;
-}
-
 function showForecastData(data) {
+    function getForecastElement(data) {
+        const upcoming = document.createElement('span');
+        upcoming.classList.add('upcoming');
+
+        const condition = document.createElement('span');
+        condition.classList.add('condition');
+        condition.innerHTML = getSymbol(data.condition);
+
+        const forecastData = createForecastData(`${data.low}&#176;/${data.high}&#176;`);
+        const conditionData = createForecastData(data.condition);
+
+        upcoming.appendChild(condition);
+        upcoming.appendChild(forecastData);
+        upcoming.appendChild(conditionData);
+
+        return upcoming;
+    };
+
     const forecastInfo = document.createElement('div');
     forecastInfo.classList.add('forecast-info');
 
@@ -103,18 +132,18 @@ function showForecastData(data) {
     }
 
     elements.upcoming.appendChild(forecastInfo);
-}
+};
 
 function loadWeatherInfo(data, location) {
     const locationData = data
         .filter(x => x.name === location)[0];
 
-    if(!locationData) {
+    if (!locationData) {
         return;
     }
 
     const code = locationData.code;
-    
+
     fetch(urls.today.replace('${code}', code))
         .then(handler)
         .then(showLocationInfo);
