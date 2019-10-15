@@ -59,7 +59,9 @@ function resetForm() {
 
 function handler(response) {
     if(response.status >= 400) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`)
+		const errorMessage = `Error: ${response.status} - ${response.statusText}`;
+		elements.forecast.appendChild(createHTMLElement('div', null, ['error'], errorMessage));
+        throw new Error(errorMessage);
     }
 
     //response.json() returns a Promise
