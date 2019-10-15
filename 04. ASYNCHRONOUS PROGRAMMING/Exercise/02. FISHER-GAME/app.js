@@ -16,6 +16,8 @@
     };
 
     function displayCatches(data) {
+        resetCatches();
+
         let keys = Object.keys(data);
         //Descending sort by weight
         keys.sort((a, b) => data[b].weight - data[a].weight)
@@ -27,8 +29,6 @@
     };
 
     function onLoadBtnClick() {
-        resetCatches();
-
         fetch('https://fisher-game.firebaseio.com/catches.json', {method: 'GET'})
             .then(handler)
             .then(displayCatches)
