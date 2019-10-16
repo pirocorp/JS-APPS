@@ -1,9 +1,5 @@
-const username = 'guest';
-const password = 'guest';
-const appKey = 'kid_SyMuKqEYB';
-const appSecret = 'a79c252bdb3448649174a7834f3b47d8';
-
 const baseUrl = `https://baas.kinvey.com/appdata/${appKey}/books`;
+let authToken;
 
 const elements = {
     btnLoadBooks: document.getElementById('btnLoadBooks'),
@@ -19,16 +15,6 @@ const elements = {
 
     books: document.getElementById('books'),
     formTitle: document.getElementById('form-title'),
-};
-
-function handler(response) {
-    if(response.status >= 400) {
-        const errorMessage = `${response.status} - ${response.statusText}`;
-        throw new Error(errorMessage);
-    }
-
-    //response.json() returns a Promise
-    return response.json();
 };
 
 function attachBookToDom(book) {
@@ -67,7 +53,7 @@ function attachBookToDom(book) {
             const request = {
                 method: 'Delete',
                 headers: {
-                    authorization: 'Basic ' + btoa(`${username}:${password}`),
+                    authorization: 'Kinvey ' + authToken,
                     'Content-Type': 'application/json',
                 },
             };
@@ -111,11 +97,15 @@ function attachBookToDom(book) {
     elements.books.appendChild(bookElement);
 };
 
-function loadBooks() {
+async function loadBooks() {  
+    if(!authToken) {
+        authToken = await login();
+    }
+
     const request = {
         method: 'GET',
         headers: {
-            authorization: 'Basic ' + btoa(`${username}:${password}`),
+            authorization: 'Kinvey ' + authToken,
             'Content-Type': 'application/json',
         },
     };
@@ -152,7 +142,7 @@ function onBtnSubmitClick(ev) {
     const request = {
         method: 'POST',
         headers: {
-            authorization: 'Basic ' + btoa(`${username}:${password}`),
+            authorization: 'Kinvey ' + authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(newBook),
@@ -201,7 +191,7 @@ function onBtnDoneEdit(ev) {
     const request = {
         method: 'PUT',
         headers: {
-            authorization: 'Basic ' + btoa(`${username}:${password}`),
+            authorization: 'Kinvey ' + authToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedBook),
