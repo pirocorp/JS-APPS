@@ -55,7 +55,7 @@ table button:hover{
     text-decoration: underline;
 }
 
-button#loadBooks{
+button#btnLoadBooks{
     margin: 0 auto;
     display:block;
     padding:1%;
@@ -63,7 +63,6 @@ button#loadBooks{
     margin-bottom: 1%;
     border-radius: 4px;
 }
-
 
 label, input{
     display:block;
@@ -83,7 +82,7 @@ form{
 
 form button{
     margin: 0 auto;
-    display:block;
+    /* display:block; */
     margin-top: 1%;
     margin-bottom: 1%;
     border-radius: 4px;
