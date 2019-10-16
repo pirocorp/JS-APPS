@@ -212,22 +212,13 @@ function onBtnDoneEdit(ev) {
         .then(() => loadBooks())
         .catch(console.log);
 
-    clearEditForm()
+    clearEditForm();
 };
 
 function onBtnCancel(ev) {
     ev.preventDefault();
 
-    elements.form.title.value = '';
-    elements.form.author.value = '';
-    elements.form.isbn.value = '';
-
-    elements.formTitle.textContent = 'FORM';
-    elements.formTitle.removeAttribute('data-id');
-
-    elements.btnSubmit.style.display = '';
-    elements.form.btnCancel.style.display = 'none';
-    elements.form.btnDoneEdit.style.display = 'none';
+    clearEditForm();
 };
 
 elements.btnSubmit.addEventListener('click', onBtnSubmitClick);
