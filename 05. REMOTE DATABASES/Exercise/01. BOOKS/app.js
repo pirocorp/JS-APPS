@@ -31,10 +31,6 @@ function handler(response) {
     return response.json();
 };
 
-/* function setCurrentBookToEditForm(currentBook) {
-    
-} */
-
 function attachBookToDom(book) {
     function createTd(text) {
         const td = document.createElement('td');
@@ -172,6 +168,19 @@ function onBtnSubmitClick(ev) {
     elements.form.isbn.value = '';
 };
 
+function clearEditForm() {
+    elements.form.title.value = '';
+    elements.form.author.value = '';
+    elements.form.isbn.value = '';
+
+    elements.formTitle.textContent = 'FORM';
+    elements.formTitle.removeAttribute('data-id');
+
+    elements.btnSubmit.style.display = '';
+    elements.form.btnCancel.style.display = 'none';
+    elements.form.btnDoneEdit.style.display = 'none';
+};
+
 function onBtnDoneEdit(ev) {
     ev.preventDefault();
 
@@ -203,16 +212,7 @@ function onBtnDoneEdit(ev) {
         .then(() => loadBooks())
         .catch(console.log);
 
-    elements.form.title.value = '';
-    elements.form.author.value = '';
-    elements.form.isbn.value = '';
-
-    elements.formTitle.textContent = 'FORM';
-    elements.formTitle.removeAttribute('data-id');
-
-    elements.btnSubmit.style.display = '';
-    elements.form.btnCancel.style.display = 'none';
-    elements.form.btnDoneEdit.style.display = 'none';
+    clearEditForm()
 };
 
 function onBtnCancel(ev) {
