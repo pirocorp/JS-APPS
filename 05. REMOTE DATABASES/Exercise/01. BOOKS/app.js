@@ -9,6 +9,7 @@ const elements = {
         title: document.getElementById('title'),
         author: document.getElementById('author'),
         isbn: document.getElementById('isbn'),
+        tags: document.getElementById('tags'),
         btnDoneEdit: document.getElementById('btnDoneEdit'),
         btnCancel: document.getElementById('btnCancel'),
     },
@@ -25,7 +26,7 @@ function attachBookToDom(book) {
     };
 
     function createButtons() {
-        function onBtnEditClick(ev) {
+        async function onBtnEditClick(ev) {
             const currentBook = ev.currentTarget.parentElement.parentElement;
 
             const dataElements = currentBook.getElementsByTagName('td');
@@ -34,12 +35,32 @@ function attachBookToDom(book) {
             const isbn = dataElements[2].textContent; 
             const currentBookId = currentBook.getAttribute('data-id');
 
+            const request = {
+                method: 'GET',
+                headers: {
+                    authorization: 'Kinvey ' + authToken,
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            const tags = await fetch(`${baseUrl}/${currentBookId}`, request)
+                .then(handler)
+                .then(r => {
+                    if(r.tags) {
+                        return r.tags.join(', ');
+                    } else {
+                        return '';
+                    };
+                })
+                .catch(console.log());
+
             elements.formTitle.textContent = 'EDIT';
             elements.formTitle.setAttribute('data-id', currentBookId);
 
             elements.form.title.value = title;
             elements.form.author.value = author;
             elements.form.isbn.value = isbn;
+            elements.form.tags.value = tags;
 
             elements.btnSubmit.style.display = 'none';
             elements.form.btnCancel.style.display = '';
@@ -137,6 +158,7 @@ function onBtnSubmitClick(ev) {
         title: elements.form.title.value,
         author: elements.form.author.value,
         isbn: elements.form.isbn.value,
+        tags: elements.form.tags.value.split(', ').filter(x => x !== ''),
     };
 
     const request = {
@@ -156,12 +178,14 @@ function onBtnSubmitClick(ev) {
     elements.form.title.value = '';
     elements.form.author.value = '';
     elements.form.isbn.value = '';
+    elements.form.tags.value = '';
 };
 
 function clearEditForm() {
     elements.form.title.value = '';
     elements.form.author.value = '';
     elements.form.isbn.value = '';
+    elements.form.tags.value = '';
 
     elements.formTitle.textContent = 'FORM';
     elements.formTitle.removeAttribute('data-id');
@@ -186,6 +210,9 @@ function onBtnDoneEdit(ev) {
         title: elements.form.title.value,
         author: elements.form.author.value,
         isbn: elements.form.isbn.value,
+        tags: elements.form.tags.value.split(', ')
+            .map(x => x.trim())
+            .filter(x => x !== ''),
     };
 
     const request = {
