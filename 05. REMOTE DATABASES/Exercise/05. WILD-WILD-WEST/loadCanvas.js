@@ -48,7 +48,7 @@ function loadCanvas(player){
         }
 
         ctx.drawImage(sight, mouseX, mouseY,50,50);
-    }
+    };
 
     $(canvas).mousemove(function(event) {
         mouse.x = event.clientX - 35;
@@ -80,5 +80,5 @@ function loadCanvas(player){
 
         targetObj.x += targetObj.speed;
         drawCanvas(mouse.x,mouse.y)
-    }
-}
+    };
+};
