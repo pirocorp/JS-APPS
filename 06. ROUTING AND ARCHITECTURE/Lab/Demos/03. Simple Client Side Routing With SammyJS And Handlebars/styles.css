@@ -1,0 +1,18 @@
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    padding: 0px 5px;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+.book-list li {
+    list-style: none;
+    padding-left: 60px;
+}
+
+.book-list a {
+    text-decoration: none;
+}
