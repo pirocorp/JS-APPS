@@ -3,7 +3,7 @@ const app = Sammy("#main", function() {
 
     //Home
     this.get("#/home", homeController.getHomeView);
-    //this.get("#/about", homeController.getAboutView);
+    this.get("#/about", homeController.getAboutView);
 
     //User
     this.get("#/register", userController.getRegisterView);

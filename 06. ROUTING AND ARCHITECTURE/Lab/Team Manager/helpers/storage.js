@@ -29,5 +29,7 @@ const storage = (function() {
         saveData,
         saveUser,
         deleteUser,
+        appKey,
+        appSecret,
     };
 })();

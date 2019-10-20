@@ -26,7 +26,15 @@ const userController = (function() {
             return;
         }
 
-        
+        //register returns promise
+        userModel.register(username, password)
+            .then(kinvey.handler)
+            .then(r => notificator.showInfo(`Successfully created user: ${r.username}`))
+            .catch(notificator.showError);
+
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('repeatPassword').value = '';
     };
 
     const getLoginView = function(context) {

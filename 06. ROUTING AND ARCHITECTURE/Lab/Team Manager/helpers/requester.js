@@ -1,39 +1,41 @@
 //Revealing Module Pattern with IIFE
 const requester = (function() {
+    const baseUrl = "https://baas.kinvey.com";
 
-    const get = function(url, request) {
+    const get = function(endPoint, request) {
         request.method = "GET";
+        const url = baseUrl + endPoint;
         return makeRequest(url, request);
     };
 
-    const post = function(url, request) {
+    const post = function(endPoint, request) {
         request.method = "POST";
+        const url = baseUrl + endPoint;
         return makeRequest(url, request);
     };
 
-    const del = function(url, request) {
+    const del = function(endPoint, request) {
         request.method = "DELETE";
+        const url = baseUrl + endPoint;
         return makeRequest(url, request);
     };
 
-    const put = function(url, request) {
+    const put = function(endPoint, request) {
         request.method = "PUT";
+        const url = baseUrl + endPoint;
         return makeRequest(url, request);
     };
 
-    const makeRequest = function(url, request) {
-        /* if(storage.getData('userInfo')) {
-            request.headers = {
-                authorization: 
-            };
-        } */
-
-        /* if (!request.headers) {
+    const makeRequest = function (url, request) {
+        if (!request.headers) {
             request.headers = {};
-        } */
+        };
 
-        //request.headers['Content Type'] = 'application/json';
-        //TODO: Authorization Kinvey;
+        /* if(storage.getData('userInfo')) {
+            request.headers.authorization = "Kinvey"
+        }; */
+
+        request.headers['Content-Type'] = 'application/json';
         return fetch(url, request);
     };
 
