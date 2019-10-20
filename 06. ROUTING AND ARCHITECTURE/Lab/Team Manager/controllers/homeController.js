@@ -1,7 +1,13 @@
 //Revealing Module Pattern with IIFE
 const homeController = (function() {
 
-    const getHomeView = function(context) {
+    const getHome = function(context) {
+        context.loggedIn = userModel.isLoggedIn();
+
+        if(context.loggedIn) {
+            context.username = storage.getData('userInfo').username;
+        }
+
         context.loadPartials({
             //Relative paths to handlebar files
             header: "../views/common/header.hbs",
@@ -13,7 +19,13 @@ const homeController = (function() {
         });
     };
 
-    const getAboutView = function(context) {
+    const getAbout = function(context) {
+        context.loggedIn = userModel.isLoggedIn();
+
+        if (context.loggedIn) {
+            context.username = storage.getData('userInfo').username;
+        }
+
         context.loadPartials({
             //Relative paths to handlebar files
             header: "../views/common/header.hbs",
@@ -26,7 +38,7 @@ const homeController = (function() {
     };
 
     return {
-        getHomeView,
-        getAboutView
+        getHome,
+        getAbout
     };
 })();

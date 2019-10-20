@@ -31,9 +31,9 @@ const requester = (function() {
             request.headers = {};
         };
 
-        /* if(storage.getData('userInfo')) {
-            request.headers.authorization = "Kinvey"
-        }; */
+        if (storage.getData('userInfo') != null) {
+            request.headers.authorization = `Kinvey ${storage.getData("authToken")}`;
+        };
 
         request.headers['Content-Type'] = 'application/json';
         return fetch(url, request);

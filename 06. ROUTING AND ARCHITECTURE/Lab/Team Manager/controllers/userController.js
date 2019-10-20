@@ -1,6 +1,8 @@
 //Revealing Module Pattern with IIFE
 const userController = (function() {
-    const getRegisterView = function (context) {
+    const getRegister = function (context) {
+        context.loggedIn = userModel.isLoggedIn();
+
         context.loadPartials({
             //Relative paths to handlebar files
             header: "../views/common/header.hbs",
@@ -13,7 +15,7 @@ const userController = (function() {
         });
     };
 
-    const postRegisterView = function (context) {
+    const postRegister = function (context) {
         const { username, password, repeatPassword } = context.params;
 
         if(!username || !password || !repeatPassword) {
@@ -27,17 +29,27 @@ const userController = (function() {
         }
 
         //register returns promise
+        //promise resolves with sending notification
         userModel.register(username, password)
             .then(kinvey.handler)
-            .then(r => notificator.showInfo(`Successfully created user: ${r.username}`))
+            //r is response returned by the kinvey
+            .then(response => 
+                {   
+                    storage.saveUser(response);
+                    context.redirect('#/home');
+                    notificator.showInfo(`Successfully created user: ${response.username}`);
+                })
             .catch(notificator.showError);
 
+        //clear for after request is send 
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('repeatPassword').value = '';
     };
 
-    const getLoginView = function(context) {
+    const getLogin = function(context) {
+        context.loggedIn = userModel.isLoggedIn();
+
         context.loadPartials({
             //Relative paths to handlebar files
             header: "../views/common/header.hbs",
@@ -50,14 +62,53 @@ const userController = (function() {
         });
     };
 
-    const postLoginView = function() {
-        console.log("Post Login View");
+    const postLogin = function(context) {
+        const { username, password } = context.params;
+
+        const data = { username, password };
+
+        if (!username || !password ) {
+            notificator.showError("All fields are required");
+            return;
+        }
+
+        userModel.login(data)
+            .then(kinvey.handler)
+            .then(response => {
+                storage.saveUser(response);
+                context.redirect('#/home');
+                notificator.showInfo(`Successfully logged in user: ${response.username}`);
+
+            })
+            .catch(notificator.showError);
+
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    };
+
+    const getLogout = function(context) {
+
+        if(!userModel.isLoggedIn()) {
+            context.redirect('#/home');
+            return;
+        }
+
+        userModel.loggingOut()
+            .then(kinvey.handler)
+            .then(r => {
+                storage.deleteUser();        
+
+                notificator.showInfo(`Successfully logged out.`);
+                context.redirect('#/home');
+            })
+            .catch(console.log);        
     };
 
     return {
-        getRegisterView,
-        postRegisterView,
-        getLoginView,
-        postLoginView
+        getRegister,
+        postRegister,
+        getLogin,
+        postLogin,
+        getLogout
     };
 })();

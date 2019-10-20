@@ -1,3 +1,6 @@
+{{#if loggedIn}}
+    <h2>You are already registered.</h2>
+{{else}}
 <form action="#/register" method="post">
     <div class="form-group">
         <label for="username">Username:</label>
@@ -13,3 +16,4 @@
     </div>
     <input class="btn btn-default" type="submit" value="Register"/>
 </form>
+{{/if}}

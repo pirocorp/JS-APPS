@@ -20,8 +20,8 @@ const storage = (function() {
 
     //Logout logic
     const deleteUser = function() {
-        localStorage.removeItem("userInfo");
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("userInfo" + appKey);
+        localStorage.removeItem("authToken" + appKey);
     }
 
     return {

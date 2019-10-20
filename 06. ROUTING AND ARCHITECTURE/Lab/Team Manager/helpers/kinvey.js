@@ -17,6 +17,13 @@ const kinvey = (function() {
             throw new Error(errorMessage);
         };
 
+        //When log out kinvey returns response with No Content
+        if (response.statusText === "No Content") {
+
+            //Promise.resolve() returns promise which resolves to string passed as argument
+            return Promise.resolve();
+        }
+
         //response.json() returns a Promise
         return response.json();
     };
