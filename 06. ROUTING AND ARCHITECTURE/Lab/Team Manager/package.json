@@ -1,6 +1,6 @@
 {
     "name": "team-manager",
-    "description": "Team manager MVC demo with Sammy, jQuery, Handlebars and Bootstrap for the front-end and Kinvey for the back-end",
+    "description": "Team manager SPA MVC demo with Sammy, jQuery, Handlebars and Bootstrap for the front-end and Kinvey for the back-end.",
     "authors": "Zdravko Zdravkov",
     "version": "1.0.0",
     "main": "./scripts/app.js",
