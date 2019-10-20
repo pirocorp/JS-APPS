@@ -2,6 +2,7 @@
     "cSpell.ignoreWords": [
         "authtoken",
         "iife",
-        "kinvey"
+        "kinvey",
+        "notificator"
     ]
 }
