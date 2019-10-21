@@ -9,19 +9,29 @@ const notificator = (function() {
         renderNotificationElement(selector, message);
     };
 
-    function renderNotificationElement(selector, message, timeSpan) {
-        if(!timeSpan) { timeSpan = 2000 };
+    function renderNotificationElement(selector, message) {
+        const timeSpan = 3000;
 
-        const errorBoxElement = document.querySelector(selector);
+        const notificationElement = document.querySelector(selector);
 
-        errorBoxElement.textContent = message;
-        errorBoxElement.disabled = false;
-        errorBoxElement.style.display = 'block';
+        notificationElement.textContent = message;
+        //custom fade in css animation
+        notificationElement.classList.add('fade-in');
+        notificationElement.disabled = false;
+        notificationElement.style.display = 'block';
+
+        setTimeout(() => {            
+            notificationElement.classList.remove('fade-in');
+            //custom fade out css animation
+            notificationElement.classList.add('fade-out');
+        }, 2500);
 
         setTimeout(() => {
-            errorBoxElement.textContent = '';
-            errorBoxElement.disabled = true;
-            errorBoxElement.style.display = '';
+            notificationElement.textContent = '';
+            notificationElement.classList.remove('fade-out');
+            
+            notificationElement.disabled = true;
+            notificationElement.style.display = '';
         }, timeSpan);
     };
 

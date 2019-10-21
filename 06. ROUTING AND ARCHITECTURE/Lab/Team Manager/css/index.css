@@ -1,3 +1,9 @@
+.clear::after { 
+  content: "";
+  display: block; 
+  clear: both;
+}
+
 body {
   margin: 0;
   padding: 0;

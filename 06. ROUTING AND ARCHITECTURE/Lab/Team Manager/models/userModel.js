@@ -47,17 +47,49 @@ const userModel = (function() {
     };
 
     const loggingOut = function() {
-        if(this.isLoggedIn()) {
-            const endPoint = `/user/${storage.appKey}/_logout`;
-            
-            return requester.post(endPoint, {});
+        if(!this.isLoggedIn()) {
+            return Promise.reject("You must be logged in.")
         }
+
+        const endPoint = `/user/${storage.appKey}/_logout`;        
+        return requester.post(endPoint, {});
+    };
+
+    const setTeam = function(teamId) {
+        if(!this.isLoggedIn()) {
+            return Promise.reject("You must be logged in.")
+        }
+        const userId = storage.getData("userInfo")._id;
+        const endPoint = `/user/${storage.appKey}/${userId}`;
+
+        const data = {
+            teamId
+        };
+
+        const request = {
+            body: JSON.stringify(data),
+        };
+
+        return requester.put(endPoint, request);
+    };
+
+    const getCurrentUser = function() {
+        if(!this.isLoggedIn()) {
+            return Promise.reject("You must be logged in.")
+        }
+        
+        const userId = storage.getData("userInfo")._id;
+        const endPoint = `/user/${storage.appKey}/${userId}`;
+
+        return requester.get(endPoint, {});
     };
 
     return {
         register,
         login,
         isLoggedIn,
-        loggingOut
+        loggingOut,
+        setTeam,
+        getCurrentUser
     };
 })();

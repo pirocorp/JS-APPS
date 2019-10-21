@@ -1,8 +1,10 @@
 {
     "cSpell.ignoreWords": [
+        "appdata",
         "authtoken",
         "iife",
         "kinvey",
-        "notificator"
+        "notificator",
+        "titlebar"
     ]
 }
