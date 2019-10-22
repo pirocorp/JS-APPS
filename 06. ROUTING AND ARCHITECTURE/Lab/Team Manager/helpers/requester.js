@@ -1,4 +1,5 @@
 //Revealing Module Pattern with IIFE
+//Makes AJAX calls to Kinvey
 const requester = (function() {
     const baseUrl = "https://baas.kinvey.com";
 

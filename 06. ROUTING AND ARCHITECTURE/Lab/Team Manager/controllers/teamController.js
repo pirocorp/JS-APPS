@@ -5,6 +5,7 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
+            context.redirect('#/home');
             return;
         }
 
@@ -28,21 +29,20 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
-            context.redirect('#/home')
+            context.redirect('#/home');
+            return;
+        }
+
+        if (storage.getData("userInfo").teamId) {
+            notificator.showError("You must be not a member of any team");
+            context.redirect('#/home');
             return;
         }
 
         if(!name) {
             notificator.showError("Team name is required");
-            context.redirect('#/home')
             return;
-        }
-
-        if(storage.getData("userInfo").teamId) {
-            notificator.showError("You must be not a member of any team");
-            context.redirect('#/home')
-            return;
-        }
+        }        
 
         const username = storage.getData("userInfo").username;
 
@@ -83,18 +83,22 @@ const teamController = (function() {
 
         context.teamId = context.params.teamId.substring(1);
 
-        //First loads empty page
-        context.loadPartials({
-            //Relative paths to handlebar files
-            header: "../views/common/header.hbs",
-            footer: "../views/common/footer.hbs",
-            teamMember: "../views/catalog/teamMember.hbs",
-            teamControls: "../views/catalog/teamControls.hbs",
-        })
-        .then(function() {
-            //when dependencies of this template are loaded loads template
-            this.partial("../views/catalog/details.hbs");
-        });
+        function renderPage(context) {
+            context.loadPartials({
+                //Relative paths to handlebar files
+                header: "../views/common/header.hbs",
+                footer: "../views/common/footer.hbs",
+                teamMember: "../views/catalog/teamMember.hbs",
+                teamControls: "../views/catalog/teamControls.hbs",
+            })
+            .then(function () {
+                //when dependencies of this template are loaded loads template
+                this.partial("../views/catalog/details.hbs");
+            });
+        }
+
+        //First render empty page
+        renderPage(context);
         
         //Awaits for response from the server
         await teamModel.getTeam(context.teamId)
@@ -110,18 +114,8 @@ const teamController = (function() {
             })
             .catch(console.log);
 
-        //Reload page with content from the server page
-        context.loadPartials({
-            //Relative paths to handlebar files
-            header: "../views/common/header.hbs",
-            footer: "../views/common/footer.hbs",
-            teamMember: "../views/catalog/teamMember.hbs",
-            teamControls: "../views/catalog/teamControls.hbs",
-        })
-        .then(function() {
-            //when dependencies of this template are loaded loads template
-            this.partial("../views/catalog/details.hbs");
-        });
+        //Render again page after data is received from server
+        renderPage(context);
     };
 
     const getJoinTeam = function(context) {
@@ -130,11 +124,13 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
+            context.redirect('#/home');
             return;
         }
 
         if(storage.getData("userInfo").teamId) {
             notificator.showError("You are already member of another team.")
+            context.redirect('#/home');
             return;
         }
 
@@ -177,6 +173,7 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
+            context.redirect('#/home');
             return;
         }
 
@@ -218,23 +215,29 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
+            context.redirect('#/home');
             return;
         }
 
         context.teamId = context.params.teamId.substring(1);
 
-        //First loads empty page
-        context.loadPartials({
-            //Relative paths to handlebar files
-            header: "../views/common/header.hbs",
-            footer: "../views/common/footer.hbs",
-            editForm: "../views/edit/editForm.hbs",
-        })
-        .then(function() {
-            //when dependencies of this template are loaded loads template
-            this.partial("../views/edit/editPage.hbs");
-        });
+        function renderPage(context) {
+            context.loadPartials({
+                //Relative paths to handlebar files
+                header: "../views/common/header.hbs",
+                footer: "../views/common/footer.hbs",
+                editForm: "../views/edit/editForm.hbs",
+            })
+                .then(function () {
+                    //when dependencies of this template are loaded loads template
+                    this.partial("../views/edit/editPage.hbs");
+                });
+        }
 
+        //First render empty page
+        renderPage(context);
+
+        //Awaits for response from the server
         await teamModel.getTeam(context.teamId)
             .then(kinvey.handler)
             .then(r => {
@@ -243,17 +246,8 @@ const teamController = (function() {
             })
             .catch(console.log());
 
-        //Reloads page with data
-        context.loadPartials({
-            //Relative paths to handlebar files
-            header: "../views/common/header.hbs",
-            footer: "../views/common/footer.hbs",
-            editForm: "../views/edit/editForm.hbs",
-        })
-        .then(function() {
-            //when dependencies of this template are loaded loads template
-            this.partial("../views/edit/editPage.hbs");
-        });
+        //Render again page after data is received from server
+        renderPage(context);
     };
 
     const postEditTeam = function(context) {
@@ -262,6 +256,7 @@ const teamController = (function() {
 
         if(!context.loggedIn) {
             notificator.showError("You must be logged in");
+            context.redirect('#/home');
             return;
         }
 

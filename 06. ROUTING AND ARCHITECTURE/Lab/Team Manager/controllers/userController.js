@@ -3,6 +3,12 @@ const userController = (function() {
     const getRegister = function (context) {
         context.loggedIn = userModel.isLoggedIn();
 
+        if (context.loggedIn) {
+            notificator.showError("You must be logged out");
+            context.redirect('#/home');
+            return;
+        }
+
         context.loadPartials({
             //Relative paths to handlebar files
             header: "../views/common/header.hbs",
@@ -16,6 +22,14 @@ const userController = (function() {
     };
 
     const postRegister = function (context) {
+        context.loggedIn = userModel.isLoggedIn();
+
+        if (context.loggedIn) {
+            notificator.showError("You must be logged out");
+            context.redirect('#/home');
+            return;
+        }
+
         const { username, password, repeatPassword } = context.params;
 
         if(!username || !password || !repeatPassword) {
@@ -29,10 +43,10 @@ const userController = (function() {
         }
 
         //register returns promise
-        //promise resolves with sending notification
+        //promise resolves with notification
         userModel.register(username, password)
             .then(kinvey.handler)
-            //r is response returned by the kinvey
+            //response returned by the kinvey
             .then(response => 
                 {   
                     storage.saveUser(response);
@@ -41,7 +55,7 @@ const userController = (function() {
                 })
             .catch(notificator.showError);
 
-        //clear for after request is send 
+        //clear after request is send 
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('repeatPassword').value = '';
@@ -49,6 +63,12 @@ const userController = (function() {
 
     const getLogin = function(context) {
         context.loggedIn = userModel.isLoggedIn();
+
+        if (context.loggedIn) {
+            notificator.showError("You already logged in");
+            context.redirect('#/home');
+            return;
+        }
 
         context.loadPartials({
             //Relative paths to handlebar files
@@ -63,6 +83,14 @@ const userController = (function() {
     };
 
     const postLogin = function(context) {
+        context.loggedIn = userModel.isLoggedIn();
+
+        if (context.loggedIn) {
+            notificator.showError("You already logged in");
+            context.redirect('#/home');
+            return;
+        }
+
         const { username, password } = context.params;
 
         const data = { username, password };
@@ -87,7 +115,6 @@ const userController = (function() {
     };
 
     const getLogout = function(context) {
-
         if(!userModel.isLoggedIn()) {
             context.redirect('#/home');
             return;

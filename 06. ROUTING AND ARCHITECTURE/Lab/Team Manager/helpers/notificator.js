@@ -1,3 +1,4 @@
+//Shows notifications 
 const notificator = (function() {
     const showError = function(message) {
         const selector = '#errorBox';
@@ -9,6 +10,7 @@ const notificator = (function() {
         renderNotificationElement(selector, message);
     };
 
+    //Renders notifications
     function renderNotificationElement(selector, message) {
         const timeSpan = 3000;
 

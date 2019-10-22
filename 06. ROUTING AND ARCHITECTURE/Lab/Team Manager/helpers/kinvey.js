@@ -10,6 +10,7 @@ const kinvey = (function() {
             console.warn(err.debug);
         };
 
+        //logs errors for all status codes 4xx 5xx
         if (response.status >= 400) {
             const errorMessage = `${response.status} - ${response.statusText}`;
             response.json()

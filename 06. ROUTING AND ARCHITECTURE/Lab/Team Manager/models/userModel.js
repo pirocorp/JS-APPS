@@ -1,7 +1,10 @@
 //Revealing Module Pattern with IIFE
 const userModel = (function() {
-
     const register = function (username, password) {
+        if (this.isLoggedIn()) {
+            return Promise.reject("You must be logged out.")
+        }
+
         const data = {
             username, 
             password,
@@ -22,6 +25,10 @@ const userModel = (function() {
     };
 
     const login = function(data) {
+        if (this.isLoggedIn()) {
+            return Promise.reject("You are already logged in.")
+        }
+
         const endPoint = `/user/${storage.appKey}/login`;
         const base64Credentials = btoa(`${data.username}:${data.password}`);
         const authString = `Basic ${base64Credentials}`;
