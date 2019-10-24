@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popular Monkeys</title>
+    <script src="../handlebars-v4.4.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="./monkeys.js"></script>
+    <script src="./monkeysTemplate.js"></script>
+</head>
+<body>
+    <section>
+        <h1>Most popular monkeys</h1>
+        <div class="monkeys"> 
+            
+        </div>
+    </section>
+</body>
+<script type="text/x-handlebars-template" id="monkey-template">
+    {{#each monkeys}}
+        <div class="monkey">
+            <h2>{{name}}</h2>
+            <img src="{{image}}">
+            <button class="btn-info">Info</button>
+            <p class="info" style="display: none" id="{{id}}">
+                {{info}}
+            </p>
+        </div>
+    {{/each}}
+</script>
+</html>
