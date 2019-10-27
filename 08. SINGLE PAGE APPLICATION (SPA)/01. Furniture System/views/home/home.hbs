@@ -1,0 +1,23 @@
+{{> header}}
+<main>
+    <div class="alert alert-success" role="alert" id="infoBox" style="display: none;">
+        This is a success alert—check it out!
+    </div>
+    <div class="alert alert-danger" role="alert" id="errorBox" style="display: none;">
+        This is a danger alert—check it out!
+    </div>
+    <section class="container">
+        <div class="container">
+            <div class="row space-top">
+                <div class="col-md-12">
+                    <h1>Welcome to Furniture System</h1>
+                </div>
+            </div>
+            {{#if loggedIn}}
+            {{else}}
+                <h2>You must be logged in to see our furniture list.</h2>
+            {{/if}}
+        </div>
+    </section>
+</main>
+{{> footer}}

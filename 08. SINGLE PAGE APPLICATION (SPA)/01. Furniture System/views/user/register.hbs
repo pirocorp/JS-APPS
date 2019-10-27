@@ -1,0 +1,49 @@
+{{> header}}
+<main>
+    <div class="alert alert-success" role="alert" id="infoBox" style="display: none;">
+        This is a success alert—check it out!
+    </div>
+    <div class="alert alert-danger" role="alert" id="errorBox" style="display: none;">
+        This is a danger alert—check it out!
+    </div>
+    <section class="container">
+        {{#if loggedIn}}
+        <h2>You are already registered.</h2>
+        {{else}}
+        <h2>Register</h2>
+        <form action="#/register" method="POST" id="register-form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="username">Username</label>
+                        <input class="form-control" id="username" name="username" type="text">
+                        <div class="form-control-feedback" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="password">Password</label>
+                        <input class="form-control" id="password" name="password" type="password">
+                        <div class="form-control-feedback" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="confirmPassword">Confirm Password</label>
+                        <input class="form-control" id="confirmPassword" name="confirmPassword" type="password">
+                        <div class="form-control-feedback" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstName">First Name</label>
+                        <input class="form-control" id="firstName" name="first_name" type="text">
+                        <div class="form-control-feedback" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastName">Last Name</label>
+                        <input class="form-control" id="lastName" name="last_name" type="text">
+                        <div class="form-control-feedback" style="display: none;"></div>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Sign up" />
+                </div>
+            </div>
+        </form>
+        {{/if}}
+    </section>
+</main>
+{{> footer}}

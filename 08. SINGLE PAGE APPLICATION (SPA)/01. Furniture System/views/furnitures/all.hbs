@@ -1,0 +1,40 @@
+{{> header}}
+<main>
+    <div class="alert alert-success" role="alert" id="infoBox" style="display: none;">
+        This is a success alert—check it out!
+    </div>
+    <div class="alert alert-danger" role="alert" id="errorBox" style="display: none;">
+        This is a danger alert—check it out!
+    </div>
+    <div class="container">
+        <div class="row space-top">
+            <div class="col-md-12">
+                <h1>Welcome to Furniture System</h1>
+                <p>Select furniture from the catalog to view details.</p>
+            </div>
+        </div>
+        {{#if loggedIn}}
+        <div class="row space-top">
+            {{#each furnitures}}
+            <div class="col-md-4">
+                <div class="card text-white bg-dark">
+                    <div class="card-body">
+                        <blockquote class="card-blockquote">
+                            <img src="{{image}}" />
+                            <p>{{model}}</p>
+                            <footer>by {{make}}</footer>
+                            <div class="pull-right">
+                                <a href="#/furniture/details/:{{_id}}" class="btn btn-info">Details</a>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <h2>You must be logged in to see our furniture list.</h2>
+        {{/if}}
+    </div>
+</main>
+{{> footer}}

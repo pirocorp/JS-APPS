@@ -1,0 +1,44 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#/home">Furniture System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {{#if home}}active{{/if}}">
+                    <a class="nav-link" href="#/home">Home</a>
+                </li>
+                {{#if loggedIn}}
+                <li class="nav-item {{#if all}}active{{/if}}">
+                    <a class="nav-link" href="#/furniture/all">All</a>
+                </li>
+                <li class="nav-item {{#if mine}}active{{/if}}">
+                    <a class="nav-link" href="#/furniture/mine">Mine</a>
+                </li>
+                <li class="nav-item {{#if create}}active{{/if}}">
+                    <a class="nav-link" href="#/furniture/create">Create Furniture</a>
+                </li>
+                {{/if}}
+            </ul>
+            {{#if loggedIn}}
+            <span class="navbar-nav mr-auto text-white">Welcome, {{userInfo.username}}</span>
+            {{/if}}
+            <ul class="navbar-nav pull-right">
+                {{#if loggedIn}}
+                <li class="nav-item">
+                    <a class="nav-link" href="#/logout">Logout</a>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                    <a class="nav-link" href="#/register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/login">Login</a>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </nav>
+</header>

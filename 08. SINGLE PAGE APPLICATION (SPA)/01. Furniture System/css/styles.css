@@ -1,0 +1,39 @@
+img {
+    max-width: 100%;
+}
+
+.card {
+    height: 100%;
+    margin: 20px 0;
+}
+
+.card::after {
+    display: block;
+    content: '';
+    width: 100%;
+}
+
+.col-md-4 {
+    background-color: white;
+    overflow: hidden;
+}
+
+.card-body blockquote {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-body .btn {
+    margin-bottom: 10px;
+}
+
+footer {
+    padding: 50px 0;
+}
+
+footer a,
+footer p {
+    color: #343A40;
+}
