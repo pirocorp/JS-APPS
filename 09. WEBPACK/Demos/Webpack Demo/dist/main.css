@@ -1,0 +1,16 @@
+.heading {
+    color: aquamarine;
+    font-size: 5em;
+    font-family: monospace;
+}
+.step {
+    margin-top: 5px;
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(130, 255, 157);
+}
+
+.step:hover {
+    cursor: pointer;
+}
