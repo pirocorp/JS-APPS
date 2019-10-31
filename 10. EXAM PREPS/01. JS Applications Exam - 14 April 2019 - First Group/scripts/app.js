@@ -13,7 +13,7 @@ const app = Sammy("#rootElement", function() {
 
     this.get('#/logout', userController.getLogout);
 
-    //
+    //Event Controller
 });
 
 (() => {

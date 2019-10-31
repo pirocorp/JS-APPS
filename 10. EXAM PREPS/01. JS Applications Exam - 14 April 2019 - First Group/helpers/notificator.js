@@ -5,15 +5,40 @@ const notificator = (function() {
         renderNotificationElement(selector, message);
     };
 
-    const showInfo = function (message) {
+    const showInfo = async function (message) {
         const selector = '#successBox';
-        renderNotificationElement(selector, message);
+        //Hack
+        setTimeout(() => renderNotificationElement(selector, message), 200);
     };
 
     const showLoading = function(message) {
+        if(!message) {
+            message = 'Loading...';
+        }
+
         const selector = '#loadingBox';
-        renderNotificationElement(selector, message);
-    }
+
+        const notificationElement = document.querySelector(selector);
+
+        notificationElement.textContent = message;
+        notificationElement.classList.add('fade-in');
+        notificationElement.style.display = 'block';
+    };
+
+    const hideLoading = function() {
+        const selector = '#loadingBox';
+        const notificationElement = document.querySelector(selector);
+
+        notificationElement.classList.remove('fade-in');
+        notificationElement.classList.add('fade-out');
+
+        setTimeout(() => {
+            notificationElement.textContent = '';
+            notificationElement.classList.remove('fade-out');
+            
+            notificationElement.style.display = '';
+        });
+    };
 
     //Renders notifications
     function renderNotificationElement(selector, message) {
@@ -22,14 +47,12 @@ const notificator = (function() {
         const notificationElement = document.querySelector(selector);
 
         notificationElement.textContent = message;
-        //custom fade in css animation
         notificationElement.classList.add('fade-in');
-        notificationElement.disabled = false;
+        
         notificationElement.style.display = 'block';
 
         setTimeout(() => {            
             notificationElement.classList.remove('fade-in');
-            //custom fade out css animation
             notificationElement.classList.add('fade-out');
         }, 2500);
 
@@ -37,7 +60,6 @@ const notificator = (function() {
             notificationElement.textContent = '';
             notificationElement.classList.remove('fade-out');
             
-            notificationElement.disabled = true;
             notificationElement.style.display = '';
         }, timeSpan);
     };
@@ -46,5 +68,6 @@ const notificator = (function() {
         showError,
         showInfo,
         showLoading,
+        hideLoading
     };
 })();

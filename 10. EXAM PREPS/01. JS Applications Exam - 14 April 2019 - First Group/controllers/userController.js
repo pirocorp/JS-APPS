@@ -38,18 +38,25 @@ const userController = (function() {
             return;
         }
 
+        notificator.showLoading();
+
+        //TODO notifications after redirect
         userModel.login(data)
             .then(kinvey.handler)
             .then(response => {
                 storage.saveUser(response);
-                context.redirect('#/home');
+                context.redirect('#/home');      
                 notificator.showInfo(`Successfully logged in user: ${response.username}`);
-
             })
-            .catch(notificator.showError);
+            .catch((err) => {                
+                notificator.showError(err);
+            })
+            .finally(() => {
+                notificator.hideLoading();
+            });            
 
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
+        document.getElementById('inputUsername').value = '';
+        document.getElementById('inputPassword').value = '';
     };
 
     const getLogout = function(context) {
@@ -66,7 +73,9 @@ const userController = (function() {
                 context.redirect('#/home');
                 notificator.showInfo(`Successfully logged out.`);
             })
-            .catch(console.log);        
+            .catch((err) => {                
+                notificator.showError(err);
+            });     
     };
 
     const getRegister = function (context) {
@@ -90,7 +99,6 @@ const userController = (function() {
     };
 
     const postRegister = function (context) {
-
         context.loggedIn = userModel.isLoggedIn();
 
         if (context.loggedIn) {
@@ -125,9 +133,9 @@ const userController = (function() {
             .catch(notificator.showError);
 
         //clear after request is send 
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('repeatPassword').value = '';
+        document.getElementById('inputUsername').value = '';
+        document.getElementById('inputPassword').value = '';
+        document.getElementById('inputRePassword').value = '';
     };
 
     return {

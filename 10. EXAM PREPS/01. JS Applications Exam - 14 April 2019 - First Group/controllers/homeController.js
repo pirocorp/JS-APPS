@@ -19,6 +19,6 @@ const homeController = (function() {
     };
 
     return {
-        getHome
+        getHome,
     };
 })();
