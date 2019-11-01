@@ -62,6 +62,21 @@ const userModel = (function() {
         return false;
     };
 
+    const isAuthor = function(entity) {
+        if(!this.isLoggedIn) {
+            return false;
+        }
+
+        if(!storage.getData("userInfo") === null) {
+            return false;
+        }
+        
+        const creator = entity._acl.creator;
+        const currentUserId = storage.getData("userInfo")._id;
+
+        return creator === currentUserId;
+    }
+
     const getCurrentUser = function() {
         if(!this.isLoggedIn()) {
             return Promise.reject("You must be logged in.")
@@ -78,6 +93,7 @@ const userModel = (function() {
         logout,
         register,        
         isLoggedIn,        
-        getCurrentUser
+        getCurrentUser,
+        isAuthor,
     };
 })();

@@ -3,6 +3,7 @@ const app = Sammy("#rootElement", function() {
 
     //Home Controller Routes
     this.get('#/home', homeController.getHome);
+    this.get('#/404', homeController.get404)
 
     //User Controller Routes
     this.get('#/login', userController.getLogin);
@@ -14,6 +15,16 @@ const app = Sammy("#rootElement", function() {
     this.get('#/logout', userController.getLogout);
 
     //Event Controller
+    this.get('#/createEvent', eventController.getCreateEvent);
+    this.post('#/createEvent', eventController.postCreateEvent);
+
+    this.get('#/events/:id', eventController.getEventDetails);
+
+    this.get('#/editEvent/:id', eventController.getEditEvent);
+    this.post('#/editEvent/:id', eventController.postEditEvent);
+
+    this.get('/deleteEvent/:id', eventController.getDeleteEvent);
+    this.get('/joinEvent/:id', eventController.getJoinEvent);
 });
 
 (() => {

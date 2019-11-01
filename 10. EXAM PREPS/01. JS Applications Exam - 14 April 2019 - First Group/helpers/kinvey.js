@@ -1,7 +1,7 @@
 //Revealing Module Pattern with IIFE
 const kinvey = (function() {
     //handles Kinvey response and trows error for HTTP response codes 4xx 5xx
-    const handler = async function(response) {
+    const handler = async function(response, context) {
         //logs error returned by Kinvey
         function logError(err, errorMessage) {
             console.warn(errorMessage);
@@ -20,6 +20,9 @@ const kinvey = (function() {
             error.name = '';
 
             throw error;
+        } else if (response.status === 404) {
+            context.redirect('#/404');
+            throw new Error("Not Found");
         } else if (response.status >= 400) {
             const errorMessage = `${response.status} - ${response.statusText}`;
             response.json()

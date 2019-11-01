@@ -32,7 +32,7 @@ const requester = (function() {
             request.headers = {};
         };
 
-        if (storage.getData('authToken') != null) {
+        if (storage.getData('authToken') !== null) {
             request.headers.authorization = `Kinvey ${storage.getData("authToken")}`;
         };
 

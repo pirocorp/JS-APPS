@@ -45,7 +45,8 @@ const userController = (function() {
             .then(kinvey.handler)
             .then(response => {
                 storage.saveUser(response);
-                context.redirect('#/home');      
+                //context.redirect('#/home');     
+                homeController.getHome(context);
                 notificator.showInfo(`Successfully logged in user: ${response.username}`);
             })
             .catch((err) => {                
@@ -67,15 +68,16 @@ const userController = (function() {
 
         userModel.logout()
             .then(kinvey.handler)
-            .then(r => {
-                storage.deleteUser();        
-
+            .then(r => {   
+                storage.deleteUser();  
                 context.redirect('#/home');
                 notificator.showInfo(`Successfully logged out.`);
             })
             .catch((err) => {                
                 notificator.showError(err);
-            });     
+            }).finally(() => {
+                storage.deleteUser();
+            });      
     };
 
     const getRegister = function (context) {
@@ -119,7 +121,8 @@ const userController = (function() {
             return;
         }
 
-        //register returns promise
+        notificator.showLoading();
+        
         //promise resolves with notification
         userModel.register(username, password)
             .then(kinvey.handler)
@@ -130,7 +133,11 @@ const userController = (function() {
                     context.redirect('#/home');
                     notificator.showInfo(`Successfully created user: ${response.username}`);
                 })
-            .catch(notificator.showError);
+            .catch(notificator.showError)
+            .finally(() => {
+                notificator.hideLoading();
+            });            
+
 
         //clear after request is send 
         document.getElementById('inputUsername').value = '';

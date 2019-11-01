@@ -8,7 +8,7 @@ const notificator = (function() {
     const showInfo = async function (message) {
         const selector = '#successBox';
         //Hack
-        setTimeout(() => renderNotificationElement(selector, message), 200);
+        setTimeout(() => renderNotificationElement(selector, message), 1000);
     };
 
     const showLoading = function(message) {
@@ -45,6 +45,10 @@ const notificator = (function() {
         const timeSpan = 3000;
 
         const notificationElement = document.querySelector(selector);
+
+        if (!notificationElement) {
+            return;
+        }
 
         notificationElement.textContent = message;
         notificationElement.classList.add('fade-in');
