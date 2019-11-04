@@ -10,8 +10,8 @@ const homeController = (function() {
             context.recipes = recipes.map(r => {
                 r.categoryImg = recipeController.getCategoryImg(r.category);
 
-                if(r.ingredients.length > 5) {
-                    r.ingredients = r.ingredients.slice(0, 5);
+                if(r.ingredients.length > 3) {
+                    r.ingredients = r.ingredients.slice(0, 3);
                     r.ingredients.push('...')
                 }
 

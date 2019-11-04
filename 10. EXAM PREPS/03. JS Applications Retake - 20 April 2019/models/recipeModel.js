@@ -11,9 +11,19 @@ const recipeModel = (function() {
         return requester.get(`recipes/${id}`, 'appdata', 'Kinvey');
     };
 
+    const update = function (id, data) {
+        return requester.put(`recipes/${id}`, 'appdata', 'Kinvey', data);
+    };
+
+    const del = function(id) {
+        return requester.del(`recipes/${id}`, 'appdata', 'Kinvey');
+    };
+
     return {
         create,
         getAll,
-        get
+        get,
+        update,
+        del,
     };
 })();

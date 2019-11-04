@@ -82,6 +82,7 @@ const recipeController = (function() {
             return;
         }
 
+        //Load only structure of the view
         helper.loadPartials(context)
             .then(function () {
                 this.partial("../views/recipe/details.hbs")
@@ -93,11 +94,11 @@ const recipeController = (function() {
 
         context.recipe = await recipeModel.get(id)
             .then(helper.handler)
-            .then()
             .catch(console.log);
 
         context.isAuthor = userModel.isAuthor(context.recipe);
 
+        //Reload the view with the data
         helper.loadPartials(context)
         .then(function () {
             this.partial("../views/recipe/details.hbs")
@@ -107,10 +108,166 @@ const recipeController = (function() {
         });
     };
 
+    const getEdit = async function(context) {
+        const { id } = context.params;
+
+        helper.addHeaderInfo(context);
+
+        if (!context.loggedIn) {
+            return;
+        }
+
+        //Load only structure of the view
+        helper.loadPartials(context)
+            .then(function () {
+                this.partial("../views/recipe/edit.hbs")
+                    .then(() => {
+                        notificator.showNotificationMessage();
+                        notificator.showLoading();
+                    });
+            });
+
+        context.recipe = await recipeModel.get(id)
+            .then(helper.handler)
+            .catch(console.log);
+
+        context.recipe.ingredients = context.recipe.ingredients.join(', ');
+
+        context.isAuthor = userModel.isAuthor(context.recipe);
+
+        if(!context.isAuthor) {
+            const notificationMessage = 'Only author can edit the recipe.';
+            notificator.createNotificationMessage(notificationMessage, notificator.showError);
+
+            context.redirect('#/home');
+        }
+
+        helper.loadPartials(context)
+            .then(function () {
+                this.partial("../views/recipe/edit.hbs")
+                    .then(() => {
+                        notificator.showNotificationMessage();
+                        notificator.hideLoading();
+                    });
+            });
+    };
+
+    const postEdit = function(context) {
+        helper.addHeaderInfo(context);
+
+        if (!context.loggedIn) {
+            return;
+        }
+
+        let { category, description, foodImageURL, ingredients, meal, prepMethod, id, likesCounter } = context.params;
+
+        ingredients = ingredients.split(', ').map(e => e.trim());
+        ingredients = ingredients.filter(e => e !== '');
+
+        likesCounter = Number(likesCounter);
+
+        const data = {
+            category,
+            description,
+            foodImageURL,
+            ingredients,
+            meal,
+            prepMethod,
+            likesCounter,
+        };
+
+        recipeModel.update(id, data)
+            .then(helper.handler)
+            .then(() => {
+                const notificationMessage = 'Recipe edited successfully!';
+                notificator.createNotificationMessage(notificationMessage, notificator.showInfo);
+
+                context.redirect('#/home');
+            })
+            .catch(console.log);
+    };
+
+    const getDelete = async function(context) {
+        const { id } = context.params;
+
+        helper.addHeaderInfo(context);
+
+        if (!context.loggedIn) {
+            return;
+        }
+
+        const recipe = await recipeModel.get(id)
+            .then(helper.handler)
+            .catch(console.log);
+
+        context.isAuthor = userModel.isAuthor(recipe);
+
+        if (!context.isAuthor) {
+            const notificationMessage = 'Only author can archive the recipe.';
+            notificator.createNotificationMessage(notificationMessage, notificator.showError);
+
+            context.redirect('#/home');
+            return
+        }
+
+        notificator.showLoading();
+
+        recipeModel.del(id)
+            .then(helper.handler)
+            .then((res) => {
+                const notificationMessage = 'Successfully archived recipe.';
+                notificator.createNotificationMessage(notificationMessage, notificator.showInfo);
+
+                context.redirect('#/home');
+            })
+            .catch(console.log)
+            .finally(notificator.hideLoading());
+    };
+
+    const getLike = async function(context) {
+        const { id } = context.params;
+        
+        helper.addHeaderInfo(context);
+
+        if (!context.loggedIn) {
+            return;
+        }
+
+        const recipe = await recipeModel.get(id)
+            .then(helper.handler)
+            .catch(console.log);
+
+        context.isAuthor = userModel.isAuthor(recipe);
+
+        if (context.isAuthor) {
+            const notificationMessage = 'You cant like your own recipes';
+            notificator.createNotificationMessage(notificationMessage, notificator.showError);
+
+            context.redirect('#/home');
+            return
+        }
+
+        recipe.likesCounter = recipe.likesCounter + 1;
+
+        recipeModel.update(id, recipe)
+            .then(helper.handler)
+            .then(() => {
+                const notificationMessage = 'You liked that recipe.';
+                notificator.createNotificationMessage(notificationMessage, notificator.showInfo);
+
+                context.redirect('#/home');
+            })
+            .catch(console.log);
+    };
+
     return {
         getCreate,
         postCreate,
         getCategoryImg,
         getDetails,
+        getEdit,
+        postEdit,
+        getDelete,
+        getLike,
     };
 })();

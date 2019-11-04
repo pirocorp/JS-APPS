@@ -15,7 +15,7 @@
             </div>
             <div class="actions">
                 {{#if isAuthor }}
-                <a class="btn btn-danger" href="#/recipe/edit/{{ recipe._id }}">Archive</a>
+                <a class="btn btn-danger" href="#/recipe/delete/{{ recipe._id }}">Archive</a>
                 <a class="btn btn-info" href="#/recipe/edit/{{ recipe._id }}">Edit</a>
                 {{else }}
                 <a class="btn btn-success" href="#/recipe/like/{{ recipe._id }}"> {{recipe.likesCounter}} likes</a>

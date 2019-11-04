@@ -12,9 +12,7 @@ const notificator = (function() {
     const showNotificationMessage = function() {
         if(notificationMessage) {
             notificationMessage.action(notificationMessage.text);
-        }
-
-        notificationMessage = null;
+        }        
     };
 
     const showError = function(message) {
@@ -81,6 +79,7 @@ const notificator = (function() {
             notificationElement.classList.remove('fade-out');
             
             notificationElement.style.display = '';
+            notificationMessage = null;
         }, timeSpan);
     };
 
