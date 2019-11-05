@@ -1,0 +1,17 @@
+<tr>
+    <td class="">{{ @index }}</td>
+    <td class="">{{ product }}</td>
+    <td class="description">{{ description }}</td>
+    <td class="">{{ price }}</td>
+    <td>
+        <a href='#/offer/{{ _id }}' class="btn-primary btn">Offer details</a>
+    </td>
+    <td>
+        {{#if isAuthor }}
+        <a href='#/offer/delete/{{ _id }}' class="btn-danger btn">Delete</a>
+        <a href='#/offer/edit/{{ _id }}' class="btn-info btn">Edit</a>
+        {{else}}
+        <a href="#/offer/buy/{{ _id }}" class="btn-warning btn">Buy</a>
+        {{/if}}
+    </td>
+</tr>
