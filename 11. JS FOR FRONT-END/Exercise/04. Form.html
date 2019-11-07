@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body class="bg-dark text-white my-4">
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" placeholder="example@abv.bg" id="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" placeholder="********" id="password">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" placeholder="18-65" id="age">
+            </div>
+
+            <div class="form-group">
+                <label for="referer">You heard about us from</label>
+                <select id="referer" class="form-control" multiple>
+                    <option>Facebook</option>
+                    <option>Twitter</option>
+                    <option>Event</option>
+                    <option>Friend</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" name="message" id="message" placeholder="I don't have message"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cv">Upload CV</label>
+                <input type="file" class="form-control-file" id="cv">
+                <p class="text-muted">(optional)</p>
+            </div>
+
+            <div class="form-group">
+                <p class="form-check-label col-form-label-lg font-weight-bold">You are interested in</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="interest" id="job" value="job" checked>
+                    <label class="form-check-label" for="job"> Job Position </label>                    
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="interest" id="intern" value="intern">
+                    <label class="form-check-label" for="intern"> Intern </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="interest" id="qa" value="qa" disabled>
+                    <label class="form-check-label" for="qa"> Q&A </label> <span class="text-muted">(Not Active now)</span>
+                </div>
+            </div>
+
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+
+    </div>
+</body>
+</html>
